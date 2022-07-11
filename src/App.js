@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
+import Wordle from './components/Wordle'
 
 const API_URL = 'http://localhost:3001/solutions'
 
 function App() {
-  const [solutions, setSolutions] = useState(null)
+  const [solution, setSolution] = useState(null)
 
   useEffect(() => {
     const getWords = async () => {
@@ -12,7 +13,7 @@ function App() {
         .then((data) => {
           const randomSolution = data[Math.floor(Math.random() * data.length)]
           console.log(randomSolution)
-          setSolutions(randomSolution)
+          setSolution(randomSolution.word)
         })
     }
     getWords()
@@ -20,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <h1>wordle</h1>
-      {solutions && <h3>Günün Kelimesi: {solutions.word}</h3>}
+      {solution && <Wordle solution={solution} />}
     </div>
   )
 }
