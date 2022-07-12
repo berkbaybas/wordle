@@ -6,7 +6,7 @@ export default function Row({ guess, currentGuess }) {
       <div className="row">
         {guess.map((letter, index) => {
           return (
-            <div key={index} className={letter.color}>
+            <div key={index} className={`${letter.color} past`}>
               {letter.key}
             </div>
           )
@@ -25,7 +25,11 @@ export default function Row({ guess, currentGuess }) {
     return (
       <div className="row">
         {filledCurrentGuessArr.map((letter, index) => {
-          return <div key={index}>{letter}</div>
+          return (
+            <div className={letter !== undefined ? 'filled' : ''} key={index}>
+              {letter}
+            </div>
+          )
         })}
       </div>
     )
