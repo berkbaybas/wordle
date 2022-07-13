@@ -125,3 +125,28 @@ div.gray {
     border-color: #bbb;
   }
 }
+
+/*Keypad*/
+.Keypad{
+  max-width: 500px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.Keypad > div {
+  border: 1px solid black;
+  width: 40px;
+  height: 50px;
+  line-height: 50px;
+  background-color: #eee;
+  color: black;
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -6,6 +6,7 @@ const useWordle = (solution) => {
   const [guesses, setGuesses] = useState([...Array(6)]) // each guess is array
   const [history, setHistory] = useState([]) // each guess is string
   const [isCorrect, setIsCorrect] = useState(false)
+  const [usedKeys, setUsedKeys] = useState({}) // {a:"green", b:"gray"}
 
   // format a guess into an array of letter objects
   // e.g. [{key: 'a', color: 'yellow'}]
@@ -13,14 +14,16 @@ const useWordle = (solution) => {
     //TODO check if already green then not control again
     const _formattedGuess = []
     for (let i = 0; i < guess.length; i++) {
-      if (solution.includes(guess[i])) {
-        if (solution[i] === guess[i]) {
-          _formattedGuess.push({ key: guess[i], color: 'green' })
+      let _letterInGuess = guess[i]
+      console.log(_letterInGuess)
+      if (solution.includes(_letterInGuess)) {
+        if (solution[i] === _letterInGuess) {
+          _formattedGuess.push({ key: _letterInGuess, color: 'green' })
         } else {
-          _formattedGuess.push({ key: guess[i], color: 'yellow' })
+          _formattedGuess.push({ key: _letterInGuess, color: 'yellow' })
         }
       } else {
-        _formattedGuess.push({ key: guess[i], color: 'gray' })
+        _formattedGuess.push({ key: _letterInGuess, color: 'gray' })
       }
     }
 
@@ -28,9 +31,9 @@ const useWordle = (solution) => {
     return _formattedGuess
   }
 
-  //   useEffect(() => {
-  //     console.log('guesses: ' + guesses)
-  //   }, [guesses])
+  useEffect(() => {
+    console.log('usedKeys: ' + usedKeys)
+  }, [usedKeys])
 
   const addNewGuess = (formattedGuess) => {
     if (currentGuess === solution) {
@@ -42,7 +45,33 @@ const useWordle = (solution) => {
       return newGuesses
     })
     setHistory((prevHistory) => [...prevHistory, currentGuess])
-    setTurn((prev) => prev + 1)
+    setTurn((prevTurn) => prevTurn + 1)
+    setUsedKeys((prevUsedKeys) => {
+      let newKeys = { ...prevUsedKeys }
+
+      formattedGuess.forEach((letter) => {
+        const currentColor = newKeys[letter.key]
+
+        if (letter.color === 'green') {
+          newKeys[letter.key] = 'green'
+          return
+        }
+        if (letter.color === 'yellow' && currentColor !== 'green') {
+          newKeys[letter.key] = 'yellow'
+          return
+        }
+        if (
+          letter.color === 'gray' &&
+          currentColor !== 'green' &&
+          currentColor !== 'yellow'
+        ) {
+          newKeys[letter.key] = 'gray'
+          return
+        }
+      })
+
+      return newKeys
+    })
     setCurrentGuess('')
   }
 
@@ -82,7 +111,7 @@ const useWordle = (solution) => {
     }
   }
 
-  return { turn, currentGuess, guesses, isCorrect, handleKeyUp }
+  return { turn, currentGuess, guesses, isCorrect, handleKeyUp, usedKeys }
 }
 
 export default useWordle

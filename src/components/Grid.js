@@ -2,9 +2,7 @@ import React, { useEffect } from 'react'
 import Row from './Row'
 
 export default function Grid({ currentGuess, turn, guesses }) {
-  useEffect(() => {
-    console.log('sa: ', guesses)
-  }, [guesses])
+  useEffect(() => {}, [guesses])
   return (
     <div>
       {guesses.map((guess, index) => {

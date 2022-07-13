@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
+
 import Wordle from './components/Wordle'
 
-const API_URL = 'http://localhost:3001/solutions'
+import { API_URL } from './Utils/Constant'
 
 function App() {
   const [solution, setSolution] = useState(null)
 
   useEffect(() => {
     const getWords = async () => {
-      fetch(API_URL)
+      fetch(`${API_URL}/solutions`)
         .then((res) => res.json())
         .then((data) => {
           const randomSolution = data[Math.floor(Math.random() * data.length)]
-          console.log(randomSolution)
           setSolution(randomSolution.word)
         })
     }
