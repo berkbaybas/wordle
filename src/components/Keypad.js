@@ -17,8 +17,10 @@ const Keypad = ({ usedKeys }) => {
   return (
     <div className="Keypad">
       {letters &&
-        letters.map((letter) => (
-          <div className={usedKeys[letter.key]}>{letter.key}</div>
+        letters.map((letter, index) => (
+          <div key={index} className={usedKeys[letter.key]}>
+            {letter.key}
+          </div>
         ))}
     </div>
   )
